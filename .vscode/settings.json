@@ -1,0 +1,5 @@
+{
+    // Configuración para ejecutar Java con la opción -Xshare:off y ocultar los warnings de CDS
+    "java.debug.settings.vmArgs": "-Xshare:off",
+    "java.jdt.ls.vmargs": "-Xshare:off"
+}
