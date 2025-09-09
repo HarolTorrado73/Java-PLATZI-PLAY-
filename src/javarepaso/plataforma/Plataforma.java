@@ -17,6 +17,16 @@ public class Plataforma {
         this.catalogo.add(elemento);
     }
 
+    public void mostrarTitulos() {
+        for (Pelicula pelicula : catalogo) { //mejor implementar un foreach
+            System.out.println(pelicula.getTitulo()); //uso el metodo getTitulo de la clase Pelicula
+        }
+    }
+
+    public void eliminar(Pelicula elemento) {
+        this.catalogo.remove(elemento);
+    }
+    
     public String getNombre() {
         return nombre;
     }

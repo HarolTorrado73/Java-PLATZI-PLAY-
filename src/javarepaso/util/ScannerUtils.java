@@ -13,6 +13,11 @@ public class ScannerUtils {
     public static int capturarEntero(String mensaje) {
         System.out.println(mensaje);
 
+        while (!scanner.hasNextDouble()) {
+            System.out.println("Entrada inválida. Por favor, ingrese un número entero.");
+            scanner.next(); // Limpiar la entrada inválida
+        }
+
         int dato = scanner.nextInt();
         scanner.nextLine(); // Limpiar el buffer por el enter que se presiona
         return dato;
