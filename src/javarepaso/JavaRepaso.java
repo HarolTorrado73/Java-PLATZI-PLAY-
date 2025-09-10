@@ -3,7 +3,6 @@ package javarepaso;
 
 import javarepaso.contenido.Pelicula;
 import javarepaso.plataforma.Plataforma;
-import javarepaso.plataforma.Usuario;
 import javarepaso.util.ScannerUtils;
 
 public class JavaRepaso {
@@ -24,6 +23,7 @@ public class JavaRepaso {
         //3. Buscar por titulo
         //4. Eliminar pelicula
         //5. salir
+        cargarPeliculas(plataforma);
 
         while (true) {
             System.out.println("1. Agregar peliculas al catalogo");
@@ -38,6 +38,8 @@ public class JavaRepaso {
             if (opcion == SALIR) { //se podria usar un switch tambien
                 System.out.println("Gracias por usar Platzi Play 😵‍💫");
                 break; //o system.exit(0);
+
+
             } else if (opcion == AGREGAR_PELICULA) {
                 //Agregar peliculas al catalogo
                 System.out.println("Agregar peliculas al catalogo");
@@ -53,10 +55,26 @@ public class JavaRepaso {
 
             } else if (opcion == BUSCAR_PELICULA) {
                 //Buscar por titulo
-                System.out.println("Buscar por titulo");
-                //Falta implementar
+                String nombreBuscado = ScannerUtils.captrarTExto("Ingrese el titulo de la pelicula a buscar");
+                Pelicula peliculaEncontrada = plataforma.buscarPorTitulo(nombreBuscado);
+                if (peliculaEncontrada != null) {
+                    System.out.println("Pelicula encontrada: " + peliculaEncontrada.getTitulo());
+                }else {
+                    System.out.println(nombreBuscado + "-Pelicula no encontrada");
+                }
+                
+                
             } else if (opcion ==  ELIMINAR_PELICULA) {
                 //Eliminar pelicula
+                String nombreAEliminar = ScannerUtils.captrarTExto("Ingrese el titulo de la pelicula a eliminar");
+                Pelicula peliculaAEliminar = plataforma.buscarPorTitulo(nombreAEliminar);
+                if (peliculaAEliminar != null) {
+                    plataforma.eliminar(peliculaAEliminar);
+                    System.out.println("Pelicula eliminada: " + peliculaAEliminar.getTitulo());
+                } else {
+                    System.out.println("Pelicula no encontrada");
+                }
+
             } else {
                 System.out.println("Opcion no valida");
             }
@@ -92,8 +110,15 @@ public class JavaRepaso {
 
         //plataforma.mostrarTitulos();
 
-        Usuario usuario = new Usuario("juan", "j@j.com"); //instancia de la clase Usuario
-        usuario.nombre = "Juan Perez";
-         usuario.ver(pelicula);
+        //Usuario usuario = new Usuario("juan", "j@j.com"); //instancia de la clase Usuario
+        //usuario.nombre = "Juan Perez";
+         //usuario.ver(pelicula);
     }
+    private static void cargarPeliculas(Plataforma plataforma){
+        plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", "Fantasía", 120, 4.8));
+        plataforma.agregarPelicula(new Pelicula("Avatar", "Ciencia Ficcion", 162, 4.5));
+        plataforma.agregarPelicula(new Pelicula("Titanic", "Romance", 194, 4.1));
+        plataforma.agregarPelicula(new Pelicula("Interestelar", "Ciencia Ficcion", 169, 4.6));
+        plataforma.agregarPelicula(new Pelicula("Matrix", "Ciencia Ficcion", 136, 4.7));
+    }   
 }

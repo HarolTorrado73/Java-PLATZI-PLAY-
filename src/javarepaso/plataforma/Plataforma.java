@@ -1,7 +1,6 @@
 package javarepaso.plataforma;
 
 import java.util.List;
-
 import javarepaso.contenido.Pelicula; 
 
 public class Plataforma {
@@ -19,12 +18,22 @@ public class Plataforma {
 
     public void mostrarTitulos() {
         for (Pelicula pelicula : catalogo) { //mejor implementar un foreach
-            System.out.println(pelicula.getTitulo()); //uso el metodo getTitulo de la clase Pelicula
+            System.out.println(pelicula.getTitulo()); //uso el metodo getTitulo de la clase Pelicula4
+            System.out.println(pelicula.obtenerFichaTEcnica());
         }
     }
 
     public void eliminar(Pelicula elemento) {
         this.catalogo.remove(elemento);
+    }
+
+    public Pelicula buscarPorTitulo(String titulo) {
+        for (Pelicula pelicula : catalogo) {
+            if (pelicula.getTitulo().equalsIgnoreCase(titulo)) { //comparo el titulo ignorando mayusculas y minusculas
+                return pelicula; //retorno la pelicula si la encuentro
+            }
+        }
+        return null; //retorno null si no la encuentro
     }
     
     public String getNombre() {
