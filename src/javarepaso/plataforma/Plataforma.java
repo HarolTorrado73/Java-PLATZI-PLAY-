@@ -21,6 +21,8 @@ public class Plataforma {
             System.out.println(pelicula.getTitulo()); //uso el metodo getTitulo de la clase Pelicula4
             System.out.println(pelicula.obtenerFichaTEcnica());
         }
+
+        //contenido.foreach(pelicula -> System.out.println(pelicula.getTitulo()));//usando lambda igual que el for de arriba
     }
 
     public void eliminar(Pelicula elemento) {
@@ -28,12 +30,23 @@ public class Plataforma {
     }
 
     public Pelicula buscarPorTitulo(String titulo) {
-        for (Pelicula pelicula : catalogo) {
-            if (pelicula.getTitulo().equalsIgnoreCase(titulo)) { //comparo el titulo ignorando mayusculas y minusculas
-                return pelicula; //retorno la pelicula si la encuentro
-            }
-        }
-        return null; //retorno null si no la encuentro
+    //    for (Pelicula pelicula : catalogo) {
+    //        if (pelicula.getTitulo().equalsIgnoreCase(titulo)) { //comparo el titulo ignorando mayusculas y minusculas
+    //            return pelicula; //retorno la pelicula si la encuentro
+    //        }
+    //    }
+            return catalogo.stream().filter(pelicula -> pelicula.getTitulo().equalsIgnoreCase(titulo))
+            .findFirst()
+            .orElse(null);
+            
+            //usando stream y lambda para buscar la pelicula
+        //findFirst me busca el primero que encuentre y devuelve un optional por eso uso orElse para devolver null si no la encuentra
+    //    return null; //retorno null si no la encuentro
+    }
+    public List<Pelicula> buscarPorGenero(String genero) {
+        return catalogo.stream()
+                .filter(pelicula -> pelicula.getGenero().equalsIgnoreCase(genero))
+                .toList();
     }
     
     public String getNombre() {

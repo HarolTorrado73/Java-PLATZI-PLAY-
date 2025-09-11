@@ -1,6 +1,7 @@
 
 package javarepaso;
 
+import java.util.List;
 import javarepaso.contenido.Pelicula;
 import javarepaso.plataforma.Plataforma;
 import javarepaso.util.ScannerUtils;
@@ -12,7 +13,8 @@ public class JavaRepaso {
     public static final int AGREGAR_PELICULA = 1;
     public static final int MOSTRAR_PELICULAS = 2;
     public static final int BUSCAR_PELICULA = 3;
-    public static final int ELIMINAR_PELICULA = 4;
+    public static final int BUSCAR_GENERO = 4;
+    public static final int ELIMINAR_PELICULA = 8;
 
     public static void main(String[] args) {  
         Plataforma plataforma = new Plataforma("Platzi Play");
@@ -29,7 +31,8 @@ public class JavaRepaso {
             System.out.println("1. Agregar peliculas al catalogo");
             System.out.println("2. Mostrar peliculas");
             System.out.println("3. Buscar por titulo");
-            System.out.println("4. Eliminar pelicula");
+            System.out.println("4. Buscar por genero");
+            System.out.println("8. Eliminar pelicula");
             System.out.println("5. salir");
 
             int opcion = ScannerUtils.capturarEntero("Seleccione una opcion");
@@ -75,7 +78,14 @@ public class JavaRepaso {
                     System.out.println("Pelicula no encontrada");
                 }
 
-            } else {
+            } else if (opcion ==  BUSCAR_GENERO) {
+                String generoBuscado = ScannerUtils.captrarTExto("Ingrese el genero de la pelicula a buscar");
+                List<Pelicula> peliculasPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                System.out.println(peliculasPorGenero.size() + " Peliculas encontradas del genero " + generoBuscado + ":");
+                peliculasPorGenero.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
+            }
+            
+            else {
                 System.out.println("Opcion no valida");
             }
             
