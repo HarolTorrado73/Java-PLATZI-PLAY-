@@ -1,5 +1,6 @@
 package javarepaso.plataforma;
 
+import java.util.Comparator;
 import java.util.List;
 import javarepaso.contenido.Pelicula; 
 
@@ -16,11 +17,9 @@ public class Plataforma {
         this.catalogo.add(elemento);
     }
 
-    public void mostrarTitulos() {
-        for (Pelicula pelicula : catalogo) { //mejor implementar un foreach
-            System.out.println(pelicula.getTitulo()); //uso el metodo getTitulo de la clase Pelicula4
-            System.out.println(pelicula.obtenerFichaTEcnica());
-        }
+    public List<String> mostrarTitulos() {
+        return catalogo.stream().map(Pelicula::getTitulo).toList();//map para mapear y toList para convertir el stream en una lista
+        
 
         //contenido.foreach(pelicula -> System.out.println(pelicula.getTitulo()));//usando lambda igual que el for de arriba
     }
@@ -47,6 +46,27 @@ public class Plataforma {
         return catalogo.stream()
                 .filter(pelicula -> pelicula.getGenero().equalsIgnoreCase(genero))
                 .toList();
+    }
+
+    public List<Pelicula> getPopulare(int cantidad) {
+        return catalogo.stream()
+                .sorted(Comparator.comparingDouble(Pelicula::getCalificacion).reversed()) //ordeno de mayor a menor
+                .limit(cantidad)
+                .toList();
+    }
+
+    public List<Pelicula> getPeliculaLarga (int cantidad) {
+        return catalogo.stream()
+                .sorted(Comparator.comparingInt(Pelicula::getDuracion).reversed()) //ordeno de mayor a menor
+                .limit(cantidad)
+                .toList();
+    }
+    
+
+    public int getDuracionTotal() {
+        return catalogo.stream()
+                .mapToInt(Pelicula::getDuracion) //mapToInt para convertir a int
+                .sum(); //sum para sumar todos los elementos
     }
     
     public String getNombre() {

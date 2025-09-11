@@ -9,11 +9,13 @@ import javarepaso.util.ScannerUtils;
 public class JavaRepaso {
 
     public static final String VERSION = "1.0.0"; //constante deben nombrarse en mayusculas
-    public static final int SALIR = 5;
+    public static final int SALIR = 9;
     public static final int AGREGAR_PELICULA = 1;
     public static final int MOSTRAR_PELICULAS = 2;
     public static final int BUSCAR_PELICULA = 3;
     public static final int BUSCAR_GENERO = 4;
+    public static final int BUSCAR_POPULARIDAD = 5;
+    public static final int BUSCAR_PELICULA_LARGA = 6;
     public static final int ELIMINAR_PELICULA = 8;
 
     public static void main(String[] args) {  
@@ -26,14 +28,17 @@ public class JavaRepaso {
         //4. Eliminar pelicula
         //5. salir
         cargarPeliculas(plataforma);
+        System.out.println("Más de " + plataforma.getDuracionTotal() + " minutos de entretenimiento!"); //uso del metodo getDuracionTotal
 
         while (true) {
-            System.out.println("1. Agregar peliculas al catalogo");
+            System.out.println("\n1. Agregar peliculas al catalogo");
             System.out.println("2. Mostrar peliculas");
             System.out.println("3. Buscar por titulo");
             System.out.println("4. Buscar por genero");
+            System.out.println("5. Buscar por popularidad");
+            System.out.println("6. Buscar peliculas mas largas");
             System.out.println("8. Eliminar pelicula");
-            System.out.println("5. salir");
+            System.out.println("9. salir");
 
             int opcion = ScannerUtils.capturarEntero("Seleccione una opcion");
             System.out.println("Usted selecciono la opcion: " + opcion);
@@ -53,8 +58,9 @@ public class JavaRepaso {
                  plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion));
 
             } else if (opcion == MOSTRAR_PELICULAS) {
+                List<String> titulos = plataforma.mostrarTitulos();
+                titulos.forEach(System.out::println);
                 //Mostrar peliculas
-                plataforma.mostrarTitulos();
 
             } else if (opcion == BUSCAR_PELICULA) {
                 //Buscar por titulo
@@ -67,7 +73,13 @@ public class JavaRepaso {
                 }
                 
                 
-            } else if (opcion ==  ELIMINAR_PELICULA) {
+            }else if (opcion == BUSCAR_POPULARIDAD) {
+                int cantidad = ScannerUtils.capturarEntero("Ingrese la cantidad de peliculas a mostrar");
+                List<Pelicula> peliculasPopulares = plataforma.getPopulare(cantidad);
+                System.out.println("\nPeliculas ordenadas por popularidad:");
+                peliculasPopulares.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
+            } 
+            else if (opcion ==  ELIMINAR_PELICULA) {
                 //Eliminar pelicula
                 String nombreAEliminar = ScannerUtils.captrarTExto("Ingrese el titulo de la pelicula a eliminar");
                 Pelicula peliculaAEliminar = plataforma.buscarPorTitulo(nombreAEliminar);
@@ -78,7 +90,13 @@ public class JavaRepaso {
                     System.out.println("Pelicula no encontrada");
                 }
 
-            } else if (opcion ==  BUSCAR_GENERO) {
+            }else if (opcion == BUSCAR_PELICULA_LARGA) {
+                int cantidad = ScannerUtils.capturarEntero("Ingrese la cantidad de peliculas a mostrar");
+                List<Pelicula> peliculasLargas = plataforma.getPeliculaLarga(cantidad);
+                System.out.println("\nPeliculas ordenadas por duracion:");
+                peliculasLargas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
+                
+            }else if (opcion ==  BUSCAR_GENERO) {
                 String generoBuscado = ScannerUtils.captrarTExto("Ingrese el genero de la pelicula a buscar");
                 List<Pelicula> peliculasPorGenero = plataforma.buscarPorGenero(generoBuscado);
                 System.out.println(peliculasPorGenero.size() + " Peliculas encontradas del genero " + generoBuscado + ":");
