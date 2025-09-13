@@ -2,7 +2,9 @@ package javarepaso.plataforma;
 
 import java.util.Comparator;
 import java.util.List;
-import javarepaso.contenido.Pelicula; 
+import javarepaso.contenido.Genero;
+import javarepaso.contenido.Idioma;
+import javarepaso.contenido.Pelicula;
 
 public class Plataforma {
     private String nombre;
@@ -42,9 +44,15 @@ public class Plataforma {
         //findFirst me busca el primero que encuentre y devuelve un optional por eso uso orElse para devolver null si no la encuentra
     //    return null; //retorno null si no la encuentro
     }
-    public List<Pelicula> buscarPorGenero(String genero) {
+    public List<Pelicula> buscarPorGenero(Genero genero) {
         return catalogo.stream()
-                .filter(pelicula -> pelicula.getGenero().equalsIgnoreCase(genero))
+                .filter(pelicula -> pelicula.getGenero().equals(genero))
+                .toList();
+    }
+
+    public List<Pelicula> buscarPorIdioma(Idioma idioma) {
+        return catalogo.stream()
+                .filter(pelicula -> pelicula.getIdioma().equals(idioma))  //
                 .toList();
     }
 

@@ -3,6 +3,8 @@ package javarepaso;
 
 import java.util.List;
 import javarepaso.contenido.Pelicula;
+import javarepaso.contenido.Genero;
+import javarepaso.contenido.Idioma;
 import javarepaso.plataforma.Plataforma;
 import javarepaso.util.ScannerUtils;
 
@@ -14,12 +16,11 @@ public class JavaRepaso {
     public static final int MOSTRAR_PELICULAS = 2;
     public static final int BUSCAR_PELICULA = 3;
     public static final int BUSCAR_GENERO = 4;
-    public static final int BUSCAR_POPULARIDAD = 5;
-    public static final int BUSCAR_PELICULA_LARGA = 6;
+    public static final int BUSCAR_IDIOMA = 5;
     public static final int ELIMINAR_PELICULA = 8;
 
     public static void main(String[] args) {  
-        Plataforma plataforma = new Plataforma("Platzi Play");
+    Plataforma plataforma = new Plataforma("Platzi Play");
         System.out.println("PLATZI PLAY 😵‍💫 v" + VERSION);
 
         //1. Agregar peliculas al catalogo
@@ -27,16 +28,14 @@ public class JavaRepaso {
         //3. Buscar por titulo
         //4. Eliminar pelicula
         //5. salir
-        cargarPeliculas(plataforma);
-        System.out.println("Más de " + plataforma.getDuracionTotal() + " minutos de entretenimiento!"); //uso del metodo getDuracionTotal
+    cargarPeliculas(plataforma);
 
         while (true) {
-            System.out.println("\n1. Agregar peliculas al catalogo");
+            System.out.println("1. Agregar peliculas al catalogo");
             System.out.println("2. Mostrar peliculas");
             System.out.println("3. Buscar por titulo");
             System.out.println("4. Buscar por genero");
-            System.out.println("5. Buscar por popularidad");
-            System.out.println("6. Buscar peliculas mas largas");
+            System.out.println("5. Buscar por idioma");
             System.out.println("8. Eliminar pelicula");
             System.out.println("9. salir");
 
@@ -52,15 +51,15 @@ public class JavaRepaso {
                 //Agregar peliculas al catalogo
                 System.out.println("Agregar peliculas al catalogo");
                 String nombre = ScannerUtils.captrarTExto("nombre del contenido");
-                String genero = ScannerUtils.captrarTExto("Genero del contenido");
+                Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                 int duracion = ScannerUtils.capturarEntero("Duracion del contenido");
                 double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
-                 plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion));
+                Idioma idioma = ScannerUtils.capturarIdioma("Idioma del contenido");
+                plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
 
-            } else if (opcion == MOSTRAR_PELICULAS) {
-                List<String> titulos = plataforma.mostrarTitulos();
-                titulos.forEach(System.out::println);
+            } else if (opcion == MOSTRAR_PELICULAS) {   
                 //Mostrar peliculas
+                plataforma.mostrarTitulos();
 
             } else if (opcion == BUSCAR_PELICULA) {
                 //Buscar por titulo
@@ -68,18 +67,10 @@ public class JavaRepaso {
                 Pelicula peliculaEncontrada = plataforma.buscarPorTitulo(nombreBuscado);
                 if (peliculaEncontrada != null) {
                     System.out.println("Pelicula encontrada: " + peliculaEncontrada.getTitulo());
-                }else {
-                    System.out.println(nombreBuscado + "-Pelicula no encontrada");
+                } else {
+                    System.out.println(nombreBuscado + " - Pelicula no encontrada");
                 }
-                
-                
-            }else if (opcion == BUSCAR_POPULARIDAD) {
-                int cantidad = ScannerUtils.capturarEntero("Ingrese la cantidad de peliculas a mostrar");
-                List<Pelicula> peliculasPopulares = plataforma.getPopulare(cantidad);
-                System.out.println("\nPeliculas ordenadas por popularidad:");
-                peliculasPopulares.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
-            } 
-            else if (opcion ==  ELIMINAR_PELICULA) {
+            } else if (opcion ==  ELIMINAR_PELICULA) {
                 //Eliminar pelicula
                 String nombreAEliminar = ScannerUtils.captrarTExto("Ingrese el titulo de la pelicula a eliminar");
                 Pelicula peliculaAEliminar = plataforma.buscarPorTitulo(nombreAEliminar);
@@ -90,17 +81,16 @@ public class JavaRepaso {
                     System.out.println("Pelicula no encontrada");
                 }
 
-            }else if (opcion == BUSCAR_PELICULA_LARGA) {
-                int cantidad = ScannerUtils.capturarEntero("Ingrese la cantidad de peliculas a mostrar");
-                List<Pelicula> peliculasLargas = plataforma.getPeliculaLarga(cantidad);
-                System.out.println("\nPeliculas ordenadas por duracion:");
-                peliculasLargas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
-                
-            }else if (opcion ==  BUSCAR_GENERO) {
-                String generoBuscado = ScannerUtils.captrarTExto("Ingrese el genero de la pelicula a buscar");
+            } else if (opcion ==  BUSCAR_GENERO) {
+                Genero generoBuscado = ScannerUtils.capturarGenero("Ingrese el genero de la pelicula a buscar");
                 List<Pelicula> peliculasPorGenero = plataforma.buscarPorGenero(generoBuscado);
                 System.out.println(peliculasPorGenero.size() + " Peliculas encontradas del genero " + generoBuscado + ":");
                 peliculasPorGenero.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
+            }else if (opcion ==  BUSCAR_IDIOMA) {
+                Idioma idiomaBuscado = ScannerUtils.capturarIdioma("Ingrese el idioma de la pelicula a buscar");
+                List<Pelicula> peliculasPorIdioma = plataforma.buscarPorIdioma(idiomaBuscado);
+                System.out.println(peliculasPorIdioma.size() + " Peliculas encontradas en el idioma " + idiomaBuscado + ":");
+                peliculasPorIdioma.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
             }
             
             else {
@@ -143,10 +133,10 @@ public class JavaRepaso {
          //usuario.ver(pelicula);
     }
     private static void cargarPeliculas(Plataforma plataforma){
-        plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", "Fantasía", 120, 4.8));
-        plataforma.agregarPelicula(new Pelicula("Avatar", "Ciencia Ficcion", 162, 4.5));
-        plataforma.agregarPelicula(new Pelicula("Titanic", "Romance", 194, 4.1));
-        plataforma.agregarPelicula(new Pelicula("Interestelar", "Ciencia Ficcion", 169, 4.6));
-        plataforma.agregarPelicula(new Pelicula("Matrix", "Ciencia Ficcion", 136, 4.7));
+        plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", Genero.FANTASIA, 120, 4.8, Idioma.ESPANOL));
+        plataforma.agregarPelicula(new Pelicula("Avatar", Genero.ACCION, 162, 4.5, Idioma.ESPANOL));
+        plataforma.agregarPelicula(new Pelicula("Titanic", Genero.DRAMA, 194, 4.1, Idioma.INGLES));
+        plataforma.agregarPelicula(new Pelicula("Interestelar", Genero.ACCION, 169, 4.6, Idioma.INGLES));
+        plataforma.agregarPelicula(new Pelicula("Matrix", Genero.ACCION, 136, 4.7, Idioma.INGLES));
     }   
-}
+    }

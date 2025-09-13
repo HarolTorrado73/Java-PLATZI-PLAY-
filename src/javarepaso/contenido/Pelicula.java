@@ -3,22 +3,24 @@ package javarepaso.contenido;
 
 public class Pelicula {
     public String titulo;  //los string si no se asignan son null
-    public String genero;
+    public Genero genero;  //los enum se definen como un tipo de dato
     public int duracion; // duracion en minutos
     public String descripcion;
     public int anioEstreno;
     public double calificacion;
     public boolean disponible;
+    public Idioma idioma; //agrego el atributo idioma de tipo enum
 
 
     //contructor
-    public Pelicula(String titulo, String genero, int duracion, double calificacion) {
+    public Pelicula(String titulo, Genero genero, int duracion, double calificacion, Idioma idioma) {
         //operaciones iniciales
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion; //a los atributos de mi clase le asigno los valores que me pasan por parametro
         this.disponible = true; //por defecto las peliculas estan disponibles
         this.calificar(calificacion);
+        this.idioma = idioma;
     }
     
     // public boolean disponible = true; //por defecto las peliculas estan disponibles
@@ -54,8 +56,12 @@ public class Pelicula {
         //this.titulo = titulo; asi no por  que se puede cambiar el titulo de la pelicula
     //}
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
+    }
+
+    public Idioma getIdioma() {
+        return idioma;
     }
 
     public int getDuracion() {

@@ -1,6 +1,8 @@
 package javarepaso.util;
 
 import java.util.Scanner;
+import javarepaso.contenido.Genero;
+import javarepaso.contenido.Idioma;
 
 public class ScannerUtils {
     public static Scanner scanner = new Scanner(System.in); //no depende de la instancia de la clase
@@ -31,5 +33,33 @@ public class ScannerUtils {
         scanner.nextLine(); // Limpiar el buffer por el enter que se presiona
         return dato;
 
+    }
+
+    public static Genero capturarGenero(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + " (Opciones: ACCION, AVENTURA, COMEDIA, DRAMA, FANTASIA, ROMANCE):");
+            String input = scanner.nextLine().toUpperCase(); // Convertir a mayúsculas para comparación
+
+            try {
+                return Genero.valueOf(input); // Intentar convertir la entrada a un valor de enum
+            } catch (IllegalArgumentException e) {
+                System.out.println("Género inválido. Por favor, intente de nuevo.");
+            } 
+            
+        }
+    }
+
+    public static Idioma capturarIdioma(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + " (Opciones: ESPANOL, INGLES, FRANCES, ALEMAN, ITALIANO, PORTUGUES):");
+            String input = scanner.nextLine().toUpperCase(); // Convertir a mayúsculas para comparación
+
+            try {
+                return Idioma.valueOf(input); // Intentar convertir la entrada a un valor de enum
+            } catch (IllegalArgumentException e) {
+                System.out.println("Idioma inválido. Por favor, intente de nuevo.");
+            } 
+            
+        }
     }
 }
