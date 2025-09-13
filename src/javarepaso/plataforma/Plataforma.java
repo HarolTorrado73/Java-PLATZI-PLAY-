@@ -5,6 +5,7 @@ import java.util.List;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
+import javarepaso.contenido.ResumenContenido;
 
 public class Plataforma {
     private String nombre;
@@ -53,6 +54,16 @@ public class Plataforma {
         return catalogo.stream()
                 .filter(pelicula -> pelicula.getGenero().equals(genero))
                 .toList();
+    }
+
+    public List<ResumenContenido> getResumen() {
+        return catalogo.stream()
+                .map(pelicula -> new ResumenContenido(
+                        pelicula.getTitulo(),
+                        pelicula.getGenero(),
+                        pelicula.getDuracion()
+                ))
+                .toList(); //map para mapear y toList para convertir el stream en una lista ya que llamamos List<>
     }
 
     public List<Pelicula> buscarPorIdioma(Idioma idioma) {

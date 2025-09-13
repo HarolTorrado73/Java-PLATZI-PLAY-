@@ -5,6 +5,7 @@ import java.util.List;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
+import javarepaso.contenido.ResumenContenido;
 import javarepaso.plataforma.Plataforma;
 import javarepaso.util.ScannerUtils;
 
@@ -28,7 +29,7 @@ public class JavaRepaso {
         //3. Buscar por titulo
         //4. Eliminar pelicula
         //5. salir
-    cargarPeliculas(plataforma);
+    cargarPeliculas(plataforma); //si o si para que haya peliculas al iniciar
 
         while (true) {
             System.out.println("1. Agregar peliculas al catalogo");
@@ -65,7 +66,13 @@ public class JavaRepaso {
 
             } else if (opcion == MOSTRAR_PELICULAS) {   
                 //Mostrar peliculas
-                plataforma.mostrarTitulos();
+                List<ResumenContenido> resumen = plataforma.getResumen();
+                if (resumen.isEmpty()) {
+                    System.out.println("No hay películas en el catálogo.");
+                } else {
+                    System.out.println("Películas en el catálogo:");
+                    resumen.forEach(r -> System.out.println(r.toString()));
+                }
 
             } else if (opcion == BUSCAR_PELICULA) {
                 //Buscar por titulo
