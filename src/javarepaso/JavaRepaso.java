@@ -18,6 +18,7 @@ public class JavaRepaso {
     public static final int BUSCAR_PELICULA = 3;
     public static final int BUSCAR_GENERO = 4;
     public static final int BUSCAR_IDIOMA = 5;
+    public static final int REPRODUCIR = 6;
     public static final int ELIMINAR_PELICULA = 8;
 
     public static void main(String[] args) {  
@@ -37,6 +38,7 @@ public class JavaRepaso {
             System.out.println("3. Buscar por titulo");
             System.out.println("4. Buscar por genero");
             System.out.println("5. Buscar por idioma");
+            System.out.println("6. Reproducir pelicula");
             System.out.println("8. Eliminar pelicula");
             System.out.println("9. salir");
 
@@ -104,6 +106,16 @@ public class JavaRepaso {
                 List<Pelicula> peliculasPorIdioma = plataforma.buscarPorIdioma(idiomaBuscado);
                 System.out.println(peliculasPorIdioma.size() + " Peliculas encontradas en el idioma " + idiomaBuscado + ":");
                 peliculasPorIdioma.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTEcnica()));
+            }
+            else if (opcion == REPRODUCIR) {
+                String nombreReproducir = ScannerUtils.captrarTExto("Ingrese el titulo de la pelicula a reproducir");
+                Pelicula peliculaReproducir = plataforma.buscarPorTitulo(nombreReproducir);
+                if (peliculaReproducir != null) {
+                    plataforma.reproducir(peliculaReproducir);
+                } else {
+                    System.out.println("Pelicula no encontrada");
+                }
+                
             }
             
             else {

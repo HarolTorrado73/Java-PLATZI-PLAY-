@@ -2,6 +2,7 @@ package javarepaso.plataforma;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
@@ -10,10 +11,12 @@ import javarepaso.contenido.ResumenContenido;
 public class Plataforma {
     private String nombre;
     private List<Pelicula> catalogo;
+    private Map<Pelicula, Integer> visualizaciones; //mapa que guarda la pelicula y la cantidad de veces que se ha visto
 
     public Plataforma(String nombre) {
         this.nombre = nombre;
         this.catalogo = new java.util.ArrayList<>(); //inicializo el catalogo como una lista vacia
+        this.visualizaciones = new java.util.HashMap<>(); //inicializo el mapa de visualizaciones como un mapa vacio HaspMap es hija de Map linea 14
     }
 
     public void agregarPelicula(Pelicula elemento) {
@@ -23,6 +26,22 @@ public class Plataforma {
         }
 
         this.catalogo.add(elemento);
+    }
+
+    public void reproducir(Pelicula catalogo){
+        int conteoActual = visualizaciones.getOrDefault(catalogo, 0); //obtengo el conteo actual de visualizaciones o 0 si no existe
+        System.out.println("Reproduciendo la película: " + catalogo.titulo + ". Ha sido vista " + (conteoActual + 1) + " veces.");
+
+        //visualizaciones.put(catalogo, conteoActual + 1); //actualizo el conteo de visualizaciones
+        //catalogo.reproducir();
+        this.contenidoVisualizaciones(catalogo);
+    }
+
+    private void contenidoVisualizaciones(Pelicula catalogo) {
+        int conteoActual = visualizaciones.getOrDefault(catalogo, 0); //obtengo el conteo actual de visualizaciones o 0 si no existe
+        visualizaciones.put(catalogo, conteoActual + 1); //actualizo el conteo de visualizaciones
+        catalogo.reproducir();
+
     }
 
     public List<String> mostrarTitulos() {
