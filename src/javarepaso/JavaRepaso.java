@@ -2,9 +2,9 @@
 package javarepaso;
 
 import java.util.List;
-import javarepaso.contenido.Pelicula;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
+import javarepaso.contenido.Pelicula;
 import javarepaso.plataforma.Plataforma;
 import javarepaso.util.ScannerUtils;
 
@@ -55,6 +55,12 @@ public class JavaRepaso {
                 int duracion = ScannerUtils.capturarEntero("Duracion del contenido");
                 double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
                 Idioma idioma = ScannerUtils.capturarIdioma("Idioma del contenido");
+                try {
+                    plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
+                } catch (javarepaso.excepcion.PeliculaExistenteException e) {
+                    System.out.println(e.getMessage());
+                }
+
                 plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
 
             } else if (opcion == MOSTRAR_PELICULAS) {   

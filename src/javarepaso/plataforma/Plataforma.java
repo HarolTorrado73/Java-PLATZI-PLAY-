@@ -16,6 +16,11 @@ public class Plataforma {
     }
 
     public void agregarPelicula(Pelicula elemento) {
+        Pelicula contenido = this.buscarPorTitulo(elemento.getTitulo());
+        if (contenido != null) {
+            throw new javarepaso.excepcion.PeliculaExistenteException(elemento.getTitulo());  //throw lanza una excepcion
+        }
+
         this.catalogo.add(elemento);
     }
 
