@@ -6,6 +6,7 @@ import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
 import javarepaso.contenido.ResumenContenido;
 import javarepaso.plataforma.Plataforma;
+import javarepaso.util.FileUtils;
 import javarepaso.util.ScannerUtils;
 
 public class JavaRepaso {
@@ -20,9 +21,18 @@ public class JavaRepaso {
     public static final int REPRODUCIR = 6;
     public static final int ELIMINAR_PELICULA = 8;
 
+    // Colores ANSI para terminal
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
+
     public static void main(String[] args) {  
     Plataforma plataforma = new Plataforma("Platzi Play");
-        System.out.println("PLATZI PLAY 😵‍💫 v" + VERSION);
+        System.out.println(CYAN + "PLATZI PLAY 😵‍💫 v" + VERSION + RESET);
 
         //1. Agregar peliculas al catalogo
         //2. Mostrar peliculas
@@ -32,20 +42,22 @@ public class JavaRepaso {
     cargarPeliculas(plataforma); //si o si para que haya peliculas al iniciar
 
         while (true) {
-            System.out.println("1. Agregar peliculas al catalogo");
-            System.out.println("2. Mostrar peliculas");
-            System.out.println("3. Buscar por titulo");
-            System.out.println("4. Buscar por genero");
-            System.out.println("5. Buscar por idioma");
-            System.out.println("6. Reproducir pelicula");
-            System.out.println("8. Eliminar pelicula");
-            System.out.println("9. salir");
+            System.out.println(YELLOW + "\n=== MENÚ PRINCIPAL ===" + RESET);
+            System.out.println("1. 🎬 Agregar películas al catálogo");
+            System.out.println("2. 📋 Mostrar películas");
+            System.out.println("3. 🔍 Buscar por título");
+            System.out.println("4. 🎭 Buscar por género");
+            System.out.println("5. 🌍 Buscar por idioma");
+            System.out.println("6. ▶️  Reproducir película");
+            System.out.println("8. 🗑️  Eliminar película");
+            System.out.println("9. 👋 Salir");
+            System.out.println(YELLOW + "======================" + RESET);
 
-            int opcion = ScannerUtils.capturarEntero("Seleccione una opcion");
-            System.out.println("Usted selecciono la opcion: " + opcion);
+            int opcion = ScannerUtils.capturarEntero(BLUE + "Seleccione una opción" + RESET);
+            System.out.println(GREEN + "Usted seleccionó la opción: " + opcion + RESET);
 
             if (opcion == SALIR) { //se podria usar un switch tambien
-                System.out.println("Gracias por usar Platzi Play 😵‍💫");
+                System.out.println(GREEN + "Gracias por usar Platzi Play 😵‍💫" + RESET);
                 break; //o system.exit(0);
 
 
@@ -59,11 +71,10 @@ public class JavaRepaso {
                 Idioma idioma = ScannerUtils.capturarIdioma("Idioma del contenido");
                 try {
                     plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
+                    System.out.println(GREEN + "Película agregada exitosamente: " + nombre + RESET);
                 } catch (javarepaso.excepcion.PeliculaExistenteException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println(RED + e.getMessage() + RESET);
                 }
-
-                plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
 
             } else if (opcion == MOSTRAR_PELICULAS) {   
                 //Mostrar peliculas
@@ -157,13 +168,22 @@ public class JavaRepaso {
          //usuario.ver(pelicula);
     }
     private static void cargarPeliculas(Plataforma plataforma){
-
-
-        plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", Genero.FANTASIA, 120, 4.8, Idioma.ESPANOL));
-        plataforma.agregarPelicula(new Pelicula("Avatar", Genero.ACCION, 162, 4.5, Idioma.ESPANOL));
-        plataforma.agregarPelicula(new Pelicula("Titanic", Genero.DRAMA, 194, 4.1, Idioma.INGLES));
-        plataforma.agregarPelicula(new Pelicula("Interestelar", Genero.ACCION, 169, 4.6, Idioma.INGLES));
-        plataforma.agregarPelicula(new Pelicula("Matrix", Genero.ACCION, 136, 4.7, Idioma.INGLES));
-    }   
+        try {
+            List<Pelicula> peliculas = FileUtils.leerPeliculas("contenido.txt");
+            for (Pelicula p : peliculas) {
+                plataforma.agregarPelicula(p);
+            }
+            System.out.println("Películas cargadas desde contenido.txt");
+        } catch (Exception e) {
+            System.out.println("Error al cargar películas desde archivo: " + e.getMessage());
+            System.out.println("Cargando películas por defecto...");
+            // Cargar por defecto si falla
+            plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", Genero.FANTASIA, 120, 4.8, Idioma.ESPANOL));
+            plataforma.agregarPelicula(new Pelicula("Avatar", Genero.ACCION, 162, 4.5, Idioma.ESPANOL));
+            plataforma.agregarPelicula(new Pelicula("Titanic", Genero.DRAMA, 194, 4.1, Idioma.INGLES));
+            plataforma.agregarPelicula(new Pelicula("Interestelar", Genero.ACCION, 169, 4.6, Idioma.INGLES));
+            plataforma.agregarPelicula(new Pelicula("Matrix", Genero.ACCION, 136, 4.7, Idioma.INGLES));
+        }
+    }
 
 }
