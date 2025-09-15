@@ -22,6 +22,10 @@ public class Pelicula {
         this.calificar(calificacion);
         this.idioma = idioma;
     }
+
+    public Pelicula(String titulo, Genero genero, int duracion, double calificacion) {
+        this(titulo, genero, duracion, calificacion, Idioma.ESPANOL); // default idioma
+    }
     
     // public boolean disponible = true; //por defecto las peliculas estan disponibles
     public void reproducir() {

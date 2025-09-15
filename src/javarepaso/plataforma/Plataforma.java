@@ -77,12 +77,24 @@ public class Plataforma {
 
     public List<ResumenContenido> getResumen() {
         return catalogo.stream()
+                .filter(pelicula -> !(pelicula instanceof javarepaso.contenido.Documental))
                 .map(pelicula -> new ResumenContenido(
                         pelicula.getTitulo(),
                         pelicula.getGenero(),
                         pelicula.getDuracion()
                 ))
                 .toList(); //map para mapear y toList para convertir el stream en una lista ya que llamamos List<>
+    }
+
+    public List<ResumenContenido> getResumenDocumentales() {
+        return catalogo.stream()
+                .filter(pelicula -> pelicula instanceof javarepaso.contenido.Documental)
+                .map(pelicula -> new ResumenContenido(
+                        pelicula.getTitulo(),
+                        pelicula.getGenero(),
+                        pelicula.getDuracion()
+                ))
+                .toList();
     }
 
     public List<Pelicula> buscarPorIdioma(Idioma idioma) {

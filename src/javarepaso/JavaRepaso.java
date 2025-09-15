@@ -1,6 +1,7 @@
 package javarepaso;
 
 import java.util.List;
+import javarepaso.contenido.Documental;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
@@ -19,6 +20,7 @@ public class JavaRepaso {
     public static final int BUSCAR_GENERO = 4;
     public static final int BUSCAR_IDIOMA = 5;
     public static final int REPRODUCIR = 6;
+    public static final int BUSCAR_DOCUMENTALES = 7;
     public static final int ELIMINAR_PELICULA = 8;
 
     // Colores ANSI para terminal
@@ -49,6 +51,7 @@ public class JavaRepaso {
             System.out.println("4. 🎭 Buscar por género");
             System.out.println("5. 🌍 Buscar por idioma");
             System.out.println("6. ▶️  Reproducir película");
+            System.out.println("7. 📽️  Mostrar documentales");
             System.out.println("8. 🗑️  Eliminar película");
             System.out.println("9. 👋 Salir");
             System.out.println(YELLOW + "======================" + RESET);
@@ -62,7 +65,8 @@ public class JavaRepaso {
 
 
             } else if (opcion == AGREGAR_PELICULA) {
-                //Agregar peliculas al catalogo
+                //aregacion peliculas al catalogoSubdiviccion)
+                int tipoDeContenido = ScannerUtils.capturarEntero("Tipo de contenido (1: Pelicula, 2: Documental)");
                 System.out.println("Agregar peliculas al catalogo");
                 String nombre = ScannerUtils.captrarTExto("nombre del contenido");
                 Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
@@ -70,19 +74,40 @@ public class JavaRepaso {
                 double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
                 Idioma idioma = ScannerUtils.capturarIdioma("Idioma del contenido");
                 try {
-                    plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
+                    if (tipoDeContenido == 1) {
+                        plataforma.agregarPelicula(new Pelicula(nombre, genero, duracion, calificacion, idioma));
+                    } else {
+                        String narrador = ScannerUtils.captrarTExto("narrador del documental");
+                        plataforma.agregarPelicula(new Documental(nombre, genero, duracion, calificacion, idioma, narrador));
+                    }
                     System.out.println(GREEN + "Película agregada exitosamente: " + nombre + RESET);
+                    // Guardar catálogo actualizado en contenido.txt
+                    try {
+                        FileUtils.guardarPeliculas("contenido.txt", plataforma.getCatalogo());
+                    } catch (Exception ex) {
+                        System.out.println(RED + "No se pudo guardar en contenido.txt: " + ex.getMessage() + RESET);
+                    }
                 } catch (javarepaso.excepcion.PeliculaExistenteException e) {
                     System.out.println(RED + e.getMessage() + RESET);
                 }
 
-            } else if (opcion == MOSTRAR_PELICULAS) {   
+            } else if (opcion == MOSTRAR_PELICULAS) {
                 //Mostrar peliculas
                 List<ResumenContenido> resumen = plataforma.getResumen();
                 if (resumen.isEmpty()) {
                     System.out.println("No hay películas en el catálogo.");
                 } else {
                     System.out.println("Películas en el catálogo:");
+                    resumen.forEach(r -> System.out.println(r.toString()));
+                }
+
+            } else if (opcion == BUSCAR_DOCUMENTALES) {
+                //Mostrar documentales
+                List<ResumenContenido> resumen = plataforma.getResumenDocumentales();
+                if (resumen.isEmpty()) {
+                    System.out.println("No hay documentales en el catálogo.");
+                } else {
+                    System.out.println("Documentales en el catálogo:");
                     resumen.forEach(r -> System.out.println(r.toString()));
                 }
 
@@ -102,6 +127,12 @@ public class JavaRepaso {
                 if (peliculaAEliminar != null) {
                     plataforma.eliminar(peliculaAEliminar);
                     System.out.println("Pelicula eliminada: " + peliculaAEliminar.getTitulo());
+                    // Guardar catálogo actualizado en contenido.txt
+                    try {
+                        FileUtils.guardarPeliculas("contenido.txt", plataforma.getCatalogo());
+                    } catch (Exception ex) {
+                        System.out.println(RED + "No se pudo guardar en contenido.txt: " + ex.getMessage() + RESET);
+                    }
                 } else {
                     System.out.println("Pelicula no encontrada");
                 }
