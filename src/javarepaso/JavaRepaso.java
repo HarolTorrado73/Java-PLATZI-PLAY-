@@ -1,4 +1,3 @@
-
 package javarepaso;
 
 import java.util.List;
@@ -158,10 +157,13 @@ public class JavaRepaso {
          //usuario.ver(pelicula);
     }
     private static void cargarPeliculas(Plataforma plataforma){
+
+
         plataforma.agregarPelicula(new Pelicula("El Señor de los Anillos", Genero.FANTASIA, 120, 4.8, Idioma.ESPANOL));
         plataforma.agregarPelicula(new Pelicula("Avatar", Genero.ACCION, 162, 4.5, Idioma.ESPANOL));
         plataforma.agregarPelicula(new Pelicula("Titanic", Genero.DRAMA, 194, 4.1, Idioma.INGLES));
         plataforma.agregarPelicula(new Pelicula("Interestelar", Genero.ACCION, 169, 4.6, Idioma.INGLES));
         plataforma.agregarPelicula(new Pelicula("Matrix", Genero.ACCION, 136, 4.7, Idioma.INGLES));
     }   
-    }
+
+}
