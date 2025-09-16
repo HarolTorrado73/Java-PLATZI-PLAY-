@@ -42,6 +42,7 @@ public class JavaRepaso {
         //4. Eliminar pelicula
         //5. salir
     cargarPeliculas(plataforma); //si o si para que haya peliculas al iniciar
+    plataforma.getPromociones().forEach(p -> System.out.println(PURPLE + p.promocionar() + RESET)); //muestro las promociones al iniciar
 
         while (true) {
             System.out.println(YELLOW + "\n=== MENÚ PRINCIPAL ===" + RESET);
@@ -103,8 +104,8 @@ public class JavaRepaso {
 
             } else if (opcion == BUSCAR_DOCUMENTALES) {
                 //Mostrar documentales
-                List<ResumenContenido> resumen = plataforma.getResumenDocumentales();
-                if (resumen.isEmpty()) {
+                List<ResumenContenido> resumen = plataforma.getResumenDocumentales(); //metodo nuevo en Plataforma
+                if (resumen.isEmpty()) { //si no hay documentales
                     System.out.println("No hay documentales en el catálogo.");
                 } else {
                     System.out.println("Documentales en el catálogo:");

@@ -7,4 +7,4 @@ PELICULA|conjuro 3|DRAMA|120|4.6|ESPANOL
 PELICULA|super man|ACCION|130|4.3|INGLES
 DOCUMENTAL|Oasis|60|DRAMA|3.4|ESPANOL|Alejandro
 DOCUMENTAL|Planeta Tierra|90|DRAMA|4.2|INGLES|David Attenborough
-DOCUMENTAL|La Vida en el Ártico|75|DRAMA|4.0|ESPANOL|Narrador Y
+DOCUMENTAL|La Vida en el Ártico|75|DRAMA|4.0|ESPANOL|Harol Benideti

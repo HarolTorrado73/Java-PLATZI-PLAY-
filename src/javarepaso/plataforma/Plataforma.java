@@ -6,6 +6,7 @@ import java.util.Map;
 import javarepaso.contenido.Genero;
 import javarepaso.contenido.Idioma;
 import javarepaso.contenido.Pelicula;
+import javarepaso.contenido.Promocionable;
 import javarepaso.contenido.ResumenContenido;
 
 public class Plataforma {
@@ -114,6 +115,13 @@ public class Plataforma {
         return catalogo.stream()
                 .sorted(Comparator.comparingInt(Pelicula::getDuracion).reversed()) //ordeno de mayor a menor
                 .limit(cantidad)
+                .toList();
+    }
+
+    public List<Promocionable> getPromociones() {
+        return catalogo.stream()
+                .filter(catalogo -> catalogo instanceof Promocionable) //filtro las peliculas que son promocionables
+                .map(catalogo -> (Promocionable) catalogo) //mapeo las peliculas a promocionables
                 .toList();
     }
     
